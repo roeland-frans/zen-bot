@@ -1,0 +1,54 @@
+triggers:
+  - keyword: _user_info
+
+steps:
+  - say: Hey there...
+  - ask_form: What's your name?
+    label: Name
+    autocomplete: name
+    composer:
+      visibility: hide
+  - user_set: name
+  - say: Nice to meet you, (@ user.name ) 🔥
+
+
+  - (email)
+  - type: meya.email.component.address.ask.form
+    quick_replies:
+      - text: Why do you need my email?
+        action:
+          jump: why
+    composer:
+      visibility: collapse
+      placeholder: Have a question?
+    error_message: Not a valid email address, please try again.
+    retries: 3
+  - cond:
+      - (@ not flow.ok ):
+          jump: invalid_email
+    default:
+      jump: valid_email
+
+  - (invalid_email)
+  - say: Could not determine your email address after (@ flow.retry_count) retries.
+  - end:
+      ok: false
+
+  - (why)
+  - say: We need your email address to send you important messages
+  - buttons:
+      - text: OK
+        action:
+          jump: email
+      - text: Cancel
+        action:
+          end:
+            ok: false
+
+  - (valid_email)
+  - say: Thanks, I've got your email address as (@ flow.result )️
+  - user_set: email
+  - end:
+      ok: true
+      email: (@ flow.result )
+
