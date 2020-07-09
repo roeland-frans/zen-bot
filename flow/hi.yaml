@@ -2,4 +2,9 @@ triggers:
   - keyword: hi
 
 steps:
-  - say: Hello!
+#  - if: (@ user.name )
+#    then: next
+#    else:
+#      flow: zen.flow.user_info
+#  - say: Hello (@ user.name ) 👋🏻
+  - say: Hi!!!

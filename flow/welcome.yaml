@@ -2,5 +2,5 @@ triggers:
   - keyword: welcome
 
 steps:
-  - type: component.welcome
+  - type: zen.component.welcome
     language: en
